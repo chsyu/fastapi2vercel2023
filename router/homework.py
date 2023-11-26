@@ -1,5 +1,9 @@
-from fastapi import APIRouter
-from db.homeworkJson import homework_list
+from fastapi import APIRouter, Depends, status
+from sqlalchemy.orm import Session
+from router.schemas import HomeworkRequestSchema, HomeworkResponseSchema
+from db.database import get_db
+from db import db_homework
+from typing import List
 
 router = APIRouter(
     prefix='/homeworks',
@@ -7,46 +11,26 @@ router = APIRouter(
 )
 
 
-@router.get('/')
-def get_all_homeworks() -> dict:
-    """return all homeworks"""
-    return homework_list
+@router.post('', response_model=HomeworkResponseSchema)
+def create(request: HomeworkRequestSchema, db: Session = Depends(get_db)):
+    return db_homework.create(db, request)
 
 
-@router.get('/school')
-def get_homeworks_by_school(school: str = "") -> dict:
-    """
-    return homeworks by school
-    /school?school=ntue
-    """
-    try:
-        return homework_list[school]
-    except:
-        return {}
+@router.get('/feed')
+def feed_initial_products(db: Session = Depends(get_db)):
+    return db_homework.db_feed(db)
 
 
-@router.get('/semester')
-def get_homeworks_by_semester(semester: str = "") -> list:
-    """
-    return homeworks by semester
-    /semester?semester=111-1
-    """
-    try:
-        ntue = homework_list["ntue"][semester]
-        ntut = homework_list["ntut"][semester]
-
-        return [*ntue, *ntut]
-    except:
-        return {}
+@router.get('/all', response_model=List[HomeworkResponseSchema])
+def get_all_homeworks(db: Session = Depends(get_db)):
+    return db_homework.get_all(db)
 
 
-@router.get('/school/semester')
-def get_homeworks_by_semester(school: str = "", semester: str = "") -> list:
-    """
-    return homeworks by school and semester
-    /school/semester?school=ntue&semester=111-1
-    """
-    try:
-        return homework_list[school][semester]
-    except:
-        return {}
+@router.get('/semester', response_model=List[HomeworkResponseSchema])
+def get_homeworks_by_semester(semester: str = "", db: Session = Depends(get_db)):
+    return db_homework.get_homework_by_semester(semester, db)
+
+
+@router.get('/school', response_model=List[HomeworkResponseSchema])
+def get_homeworks_by_semester(school: str = "", db: Session = Depends(get_db)):
+    return db_homework.get_homework_by_school(school, db)
