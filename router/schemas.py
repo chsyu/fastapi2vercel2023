@@ -10,6 +10,7 @@ class HomeworkRequestSchema(BaseModel):
     websiteUrl: str
     pptUrl: str
     imgUrl: str
+    clkCnt: int
     skill: List[str]
     name: List[str]
 

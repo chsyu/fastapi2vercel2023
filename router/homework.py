@@ -10,13 +10,16 @@ router = APIRouter(
     tags=['homeworks']
 )
 
+@router.put('/update/clkCnt/{id}', response_model=HomeworkResponseSchema)
+def updateClkCnt(id: int, db: Session = Depends(get_db)):
+    return db_homework.updateClkCnt(id, db)
 
 @router.post('', response_model=HomeworkResponseSchema)
 def create(request: HomeworkRequestSchema, db: Session = Depends(get_db)):
     return db_homework.create(db, request)
 
 
-@router.get('/feed')
+@router.get('/feed', response_model=List[HomeworkResponseSchema])
 def feed_initial_homeworks(db: Session = Depends(get_db)):
     """ feed initial homeworks """
     return db_homework.db_feed(db)

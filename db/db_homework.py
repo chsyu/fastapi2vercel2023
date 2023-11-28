@@ -15,6 +15,7 @@ def db_feed(db: Session):
         websiteUrl=homework["websiteUrl"],
         pptUrl=homework["pptUrl"],
         imgUrl=homework["imgUrl"],
+        clkCnt=0,
         skill=homework["skill"],
         name=homework["name"]
     ) for homework in homework_list]
@@ -35,6 +36,7 @@ def create(db: Session, request: HomeworkRequestSchema):
         websiteUrl=request.websiteUrl,
         pptUrl=request.pptUrl,
         imgUrl=request.imgUrl,
+        # clkCnt=0,
         skill=request.skill,
         name=request.name
     )
@@ -42,6 +44,16 @@ def create(db: Session, request: HomeworkRequestSchema):
     db.commit()
     db.refresh(new_homework)
     return HomeworkResponseSchema.from_orm(new_homework)
+
+def updateClkCnt(id: int, db: Session):
+    homework = db.query(DbHomework).filter(DbHomework.id == id).first()
+    if not homework:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f'Homework with id = {id} not found')
+    homework.clkCnt += 1
+    db.commit()
+    db.refresh(homework)
+    return HomeworkResponseSchema.from_orm(homework)
 
 
 def get_all(db: Session):

@@ -12,6 +12,7 @@ class DbHomework(Base):
     websiteUrl = Column(String)
     pptUrl = Column(String)
     imgUrl = Column(String)
+    clkCnt = Column(Integer)
     skill = Column(JSON)
     name = Column(JSON)
 
