@@ -79,3 +79,11 @@ def get_homework_by_school(school: str, db: Session):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail=f'Homework with school = {school} not found')
     return [HomeworkResponseSchema.from_orm(item) for item in homework]
+
+
+def get_homework_by_id(id: int, db: Session):
+    homework = db.query(DbHomework).filter(DbHomework.id == id).first()
+    if not homework:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail=f'Homework with id = {id} not found')
+    return HomeworkResponseSchema.from_orm(homework)
