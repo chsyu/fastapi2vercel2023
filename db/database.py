@@ -4,6 +4,7 @@ from sqlalchemy.orm import sessionmaker
 
 SQLALCHEMY_DATABASE_URL = "postgresql://default:c7NgYmuxk5Ij@ep-fragrant-pond-29790014.us-east-1.postgres.vercel-storage.com:5432/verceldb"
 
+
 engine = create_engine(
     SQLALCHEMY_DATABASE_URL)
 
