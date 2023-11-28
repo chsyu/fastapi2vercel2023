@@ -37,5 +37,4 @@ app.add_middleware(
 )
 
 
-
 models.Base.metadata.create_all(engine)
