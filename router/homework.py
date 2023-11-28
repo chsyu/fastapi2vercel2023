@@ -37,5 +37,5 @@ def get_homeworks_by_semester(school: str = "", db: Session = Depends(get_db)):
 
 
 @router.get('/id', response_model=HomeworkResponseSchema)
-def get_homework_by_id(id: int, db: Session = Depends(get_db)):
+def get_homework_by_id(id: int = 1, db: Session = Depends(get_db)):
     return db_homework.get_homework_by_id(id, db)
