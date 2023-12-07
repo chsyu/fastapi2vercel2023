@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-SQLALCHEMY_DATABASE_URL = "postgresql://default:f0E9MvXGTUxy@ep-blue-disk-40437537.us-east-1.postgres.vercel-storage.com:5432/verceldb"
+SQLALCHEMY_DATABASE_URL = "postgresql://default:s4hSYAHaZ3qV@ep-royal-field-12424934.us-east-1.postgres.vercel-storage.com:5432/verceldb"
 
 
 
